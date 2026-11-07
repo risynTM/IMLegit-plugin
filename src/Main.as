@@ -31,7 +31,11 @@ void Render () {
 }
 
 void MapChanged() {
-    print("Map changed to: " + currentMapUid);
+    if (currentMapUid == "") {
+        print("Closed map");
+    } else {
+        print("Opened map: " + currentMapUid);
+    }
 }
 
 void drawDebugWindow(){
