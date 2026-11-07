@@ -52,9 +52,9 @@ void drawDebugWindow(){
     }
    
     UI::Begin("ImLegit - Debug", isdebugScreen);
-    UI::Text(tostring(uiSequenceCurrent));
-    UI::Text(tostring(currentGameTime));
-    UI::Text(tostring(Time::Now));
-    UI::Text(tostring(Time::Stamp));
+    UI::LabelText("uiSequenceCurrent", tostring(uiSequenceCurrent));
+    UI::LabelText("currentGameTime", tostring(currentGameTime));
+    UI::LabelText("Time::Now", tostring(Time::Now));
+    UI::LabelText("Time::Stamp", tostring(Time::Stamp));
     UI::End();
 }
