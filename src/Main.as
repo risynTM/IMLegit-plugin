@@ -12,10 +12,10 @@ void Update(float dt) {
         CSmArenaClient@ currentPlayground = cast<CSmArenaClient>(app.CurrentPlayground); 
         if (currentPlayground is null || 
             currentPlayground.Map is null) {
-        if (currentMapUid != "") {
-            currentMapUid = "";
-            MapChanged();
-        }
+            if (currentMapUid != "") {
+                currentMapUid = "";
+                MapChanged();
+            }
         } else {
             if (currentMapUid != currentPlayground.Map.MapInfo.MapUid) {
                 currentMapUid = currentPlayground.Map.MapInfo.MapUid;
