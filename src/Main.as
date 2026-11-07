@@ -44,6 +44,9 @@ void drawDebugWindow(){
     SGamePlaygroundUIConfig::EUISequence uiSequenceCurrent = SGamePlaygroundUIConfig::EUISequence::None;
     CGamePlaygroundClientScriptAPI@ currentPlaygroundClientScriptAPI;
     int currentGameTime = 0;
+    if (app is null || !isdebugScreen) {
+        return;
+    }
     if (app.CurrentPlayground !is null) {
         @currentPlayground = cast<CSmArenaClient>(app.CurrentPlayground);
         if (currentPlayground !is null && currentPlayground.GameTerminals.Length > 0) {
