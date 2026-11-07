@@ -56,7 +56,9 @@ void drawDebugWindow(){
     }
     if (app.Network.PlaygroundClientScriptAPI !is null) {
         @currentPlaygroundClientScriptAPI = cast<CGamePlaygroundClientScriptAPI>(app.Network.PlaygroundClientScriptAPI);
-        currentGameTime = currentPlaygroundClientScriptAPI.GameTime;
+        if (currentPlaygroundClientScriptAPI !is null) {
+            currentGameTime = currentPlaygroundClientScriptAPI.GameTime;
+        }
     }
 
     UI::Begin("ImLegit - Debug", isdebugScreen);
