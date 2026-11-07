@@ -61,5 +61,9 @@ void drawDebugWindow(){
     UI::LabelText("currentGameTime", tostring(currentGameTime));
     UI::LabelText("Time::Now", tostring(Time::Now));
     UI::LabelText("Time::Stamp", tostring(Time::Stamp));
+    if (app.Editor !is null) {
+        UI::LabelText("Editor Object", "exists");
+    }
+
     UI::End();
 }
