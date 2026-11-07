@@ -9,15 +9,16 @@ void Main() {
 void Update(float dt) {
     // detect map change
     if (app !is null) {
-        if (app.RootMap is null || 
-        app.RootMap.MapInfo is null) {
+        CSmArenaClient@ currentPlayground = cast<CSmArenaClient>(app.CurrentPlayground); 
+        if (currentPlayground is null || 
+            currentPlayground.Map is null) {
         if (currentMapUid != "") {
             currentMapUid = "";
             MapChanged();
         }
         } else {
-            if (currentMapUid != app.RootMap.MapInfo.MapUid) {
-                currentMapUid = app.RootMap.MapInfo.MapUid;
+            if (currentMapUid != currentPlayground.Map.MapInfo.MapUid) {
+                currentMapUid = currentPlayground.Map.MapInfo.MapUid;
                 MapChanged();
             }
         }
