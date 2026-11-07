@@ -58,7 +58,7 @@ void drawDebugWindow(){
         @currentPlaygroundClientScriptAPI = cast<CGamePlaygroundClientScriptAPI>(app.Network.PlaygroundClientScriptAPI);
         currentGameTime = currentPlaygroundClientScriptAPI.GameTime;
     }
-   
+
     UI::Begin("ImLegit - Debug", isdebugScreen);
     UI::LabelText("uiSequenceCurrent", tostring(uiSequenceCurrent));
     UI::LabelText("currentGameTime", tostring(currentGameTime));
@@ -66,7 +66,8 @@ void drawDebugWindow(){
     UI::LabelText("Time::Stamp", tostring(Time::Stamp));
     if (app.Editor !is null) {
         UI::LabelText("Editor Object", "exists");
+    } else {
+        UI::LabelText("Editor Object", "none");
     }
-
     UI::End();
 }
