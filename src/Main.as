@@ -8,7 +8,7 @@ void Main() {
 
 void Update(float dt) {
     // detect map change
-    if (app !is null) {
+    if (app !is null && app.Editor is null) {
         CSmArenaClient@ currentPlayground = cast<CSmArenaClient>(app.CurrentPlayground); 
         if (currentPlayground is null || 
             currentPlayground.Map is null) {
