@@ -43,7 +43,10 @@ void drawDebugWindow(){
     CGameTerminal@ currentTerminal;
     SGamePlaygroundUIConfig::EUISequence uiSequenceCurrent = SGamePlaygroundUIConfig::EUISequence::None;
     CGamePlaygroundClientScriptAPI@ currentPlaygroundClientScriptAPI;
-    int currentGameTime = 0;
+    int currentGameTime = -1;
+    int currentStartTime = -1;
+    int currentRaceTime = -1;
+    CSmPlayer@ player;
     if (app is null || !isdebugScreen) {
         return;
     }
