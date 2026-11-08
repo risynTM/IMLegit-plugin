@@ -47,6 +47,12 @@ void drawDebugWindow(){
     if (app is null || !isdebugScreen) {
         return;
     }
+    if (app.Network.PlaygroundClientScriptAPI !is null) {
+        @currentPlaygroundClientScriptAPI = cast<CGamePlaygroundClientScriptAPI>(app.Network.PlaygroundClientScriptAPI);
+        if (currentPlaygroundClientScriptAPI !is null) {
+            currentGameTime = currentPlaygroundClientScriptAPI.GameTime;
+        }
+    }
     if (app.CurrentPlayground !is null) {
         @currentPlayground = cast<CSmArenaClient>(app.CurrentPlayground);
         if (currentPlayground !is null && currentPlayground.GameTerminals.Length > 0) {
