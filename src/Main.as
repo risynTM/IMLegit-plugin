@@ -61,14 +61,18 @@ void drawDebugWindow(){
         if (currentPlayground !is null && currentPlayground.GameTerminals.Length > 0) {
             @currentTerminal = currentPlayground.GameTerminals[0];
             uiSequenceCurrent = currentTerminal.UISequence_Current;
+
+            @player = cast<CSmPlayer>(currentTerminal.ControlledPlayer);
+            // Spawn index is -1 in pre-run menu, changes to 2. Always 2?
+            if (player !is null && player.SpawnIndex >= 0) {
+                currentStartTime = player.StartTime;
+                currentRaceTime = currentGameTime - currentStartTime;
+            }
+
         }
     }
-    if (app.Network.PlaygroundClientScriptAPI !is null) {
-        @currentPlaygroundClientScriptAPI = cast<CGamePlaygroundClientScriptAPI>(app.Network.PlaygroundClientScriptAPI);
-        if (currentPlaygroundClientScriptAPI !is null) {
-            currentGameTime = currentPlaygroundClientScriptAPI.GameTime;
-        }
-    }
+
+
 
     UI::Begin("ImLegit - Debug", isdebugScreen);
     UI::LabelText("uiSequenceCurrent", tostring(uiSequenceCurrent));
