@@ -84,5 +84,7 @@ void drawDebugWindow(){
     } else {
         UI::LabelText("Editor Object", "none");
     }
+    UI::LabelText("Start time", tostring(currentStartTime));
+    UI::LabelText("Race time", tostring(currentRaceTime));
     UI::End();
 }
