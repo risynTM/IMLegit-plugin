@@ -6,6 +6,10 @@ int currentStartTime = -1;
 int currentFinishTime = -1;
 int currentRaceTime = -1;
 bool isFinished = true;
+int currentCheckpoints = 0;
+
+CheckpointInfo@[] checkpointInfoArray;
+
 
 void Main() {
    @app = cast<CTrackMania>(GetApp());
@@ -47,13 +51,35 @@ void generateTimestamps(const MLFeed::PlayerCpInfo_V4@ player) {
         currentStartTime = player.StartTime;
         currentRaceTime = player.CurrentRaceTime;
     }
+    //check if player just crossed a checkpoint
+    /*
+    if (currentCheckpoints < player.cpCount) {
+        checkpointInfoArray.InsertLast(CheckpointInfo(++currentCheckpoints, player.lastCpTime, Time::MilliStamp, currentMapUid, player.latencyEstimate));
+        
+        }
+    for (int n = (player.cpCount - currentCheckpoints); n <= player.cpCount; n++) {
+        checkpointInfoArray.InsertLast(CheckpointInfo(++currentCheckpoints, player.cpTimes[n], Time::MilliStamp, currentMapUid, player.latencyEstimate));
+    }
+    */
+    while (currentCheckpoints < player.cpCount && (currentCheckpoints + 1) < player.cpTimes.Length) {
+        currentCheckpoints++;
+        checkpointInfoArray.InsertLast(CheckpointInfo(currentCheckpoints, player.cpTimes[currentCheckpoints], Time::MilliStamp, currentMapUid, player.latencyEstimate));
+    }
 
     //check if player just finished
     if (!isFinished && player.IsFinished) {
         FinishInfo@ finishInfo = FinishInfo(player.FinishTime, Time::MilliStamp, currentMapUid);
         startnew(onFinish, finishInfo);
+        startnew(processCheckpoints, checkpointInfoArray);
     }
     isFinished = player.IsFinished;
+
+
+}
+
+void processCheckpoints(ref@ checkpointInfoArrayRef) {
+    CheckpointInfo@[]@ checkpointInfoArray = cast<array<CheckpointInfo@>>(checkpointInfoArrayRef);
+    return;
 }
 
 void onFinish(ref@ finishInfoRef) {
@@ -96,6 +122,8 @@ void drawDebugWindow() {
     UI::LabelText("finishTime", tostring(player.FinishTime));
     UI::LabelText("isFinished last tick", tostring(isFinished));
     UI::LabelText("isFinished this tick", tostring(player.IsFinished));
+    UI::LabelText("cpCount", tostring(player.CpCount));
+    UI::LabelText("checkpointArray lenght", tostring(checkpointInfoArray.Length));
     UI::End();
 
 }
