@@ -14,12 +14,14 @@ void Update(float dt) {
             currentPlayground.Map is null) {
             if (currentMapUid != "") {
                 currentMapUid = "";
-                MapChanged();
+                startnew(onMapChange());
             }
         } else {
             if (currentMapUid != currentPlayground.Map.MapInfo.MapUid) {
                 currentMapUid = currentPlayground.Map.MapInfo.MapUid;
-                MapChanged();
+                startnew(onMapChange());
+            }
+        }
             }
         }
     }
@@ -30,7 +32,7 @@ void Render () {
     drawDebugWindow();
 }
 
-void MapChanged() {
+void onMapChange() {
     if (currentMapUid == "") {
         print("Closed map");
     } else {
