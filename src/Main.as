@@ -26,14 +26,23 @@ void Update(float dt) {
                 startnew(onMapChange());
             }
         }
+        if (app.CurrentPlayground !is null)  {
+            auto RaceData = MLFeed::GetRaceData_V4();
+            auto player = RaceData.GetPlayer_V4(MLFeed::LocalPlayersName);
+            if (player !is null) {
+                generateTimestamps(player);
             }
-        }
+        } 
     }
     
 }
 
 void Render () {
     drawDebugWindow();
+}
+
+void generateTimestamps(MLFeed::PlayerCpInfo_V4 player) {
+    
 }
 
 void onMapChange() {
