@@ -5,7 +5,7 @@ bool isdebugScreen = true;
 int currentStartTime = -1;
 int currentFinishTime = -1;
 int currentRaceTime = -1;
-bool isFinished = false;
+bool isFinished = true;
 
 void Main() {
    @app = cast<CTrackMania>(GetApp());
@@ -94,6 +94,8 @@ void drawDebugWindow() {
     UI::LabelText("Start time", tostring(currentStartTime));
     UI::LabelText("Race time", tostring(currentRaceTime));
     UI::LabelText("finishTime", tostring(player.FinishTime));
+    UI::LabelText("isFinished last tick", tostring(isFinished));
+    UI::LabelText("isFinished this tick", tostring(player.IsFinished));
     UI::End();
 
 }
