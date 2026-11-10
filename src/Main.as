@@ -38,7 +38,7 @@ void MapChanged() {
     }
 }
 
-void drawDebugWindow(){
+void drawDebugWindowOld(){
     CSmArenaClient@ currentPlayground;
     CGameTerminal@ currentTerminal;
     SGamePlaygroundUIConfig::EUISequence uiSequenceCurrent = SGamePlaygroundUIConfig::EUISequence::None;
@@ -46,7 +46,9 @@ void drawDebugWindow(){
     int currentGameTime = -1;
     int currentStartTime = -1;
     int currentRaceTime = -1;
-    CSmPlayer@ player;
+    int tmp = -1;
+    CSmPlayer@ controlledPlayer;
+    CSmPlayer@ guiPlayer;
     if (app is null || !isdebugScreen) {
         return;
     }
@@ -62,11 +64,15 @@ void drawDebugWindow(){
             @currentTerminal = currentPlayground.GameTerminals[0];
             uiSequenceCurrent = currentTerminal.UISequence_Current;
 
-            @player = cast<CSmPlayer>(currentTerminal.ControlledPlayer);
-            // Spawn index is -1 in pre-run menu, changes to 2. Always 2?
-            if (player !is null && player.SpawnIndex >= 0) {
-                currentStartTime = player.StartTime;
+            @controlledPlayer = cast<CSmPlayer>(currentTerminal.ControlledPlayer);
+            @guiPlayer = cast<CSmPlayer>(currentTerminal.GUIPlayer);
+            // Spawn index is -1 in pre-run and finish menu, changes to 2. Always 2?
+            if (controlledPlayer !is null && guiPlayer !is null) {
+                currentStartTime = cast<CSmScriptPlayer>(controlledPlayer.ScriptAPI).StartTime;
                 currentRaceTime = currentGameTime - currentStartTime;
+                int tmp = currentRaceTime;
+            } else if (controlledPlayer !is null && guiPlayer is null && currentRaceTime >= 0) {
+                currentRaceTime = tmp;
             }
 
         }
