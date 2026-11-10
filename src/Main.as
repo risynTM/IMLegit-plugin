@@ -38,6 +38,43 @@ void MapChanged() {
     }
 }
 
+void drawDebugWindow() {
+    int currentBestTime = -1;
+    int lastCpTime = -1;
+    if (GetApp().CurrentPlayground is null || !isdebugScreen) {
+        return;
+    }
+    // Get race data and the local player
+    auto RaceData = MLFeed::GetRaceData_V4();
+    auto player = RaceData.GetPlayer_V4(MLFeed::LocalPlayersName);
+    if (player is null) {
+        return;
+    }
+    if (player.IsSpawned && !player.IsFinished) {
+        currentStartTime = player.StartTime;
+        currentRaceTime = player.CurrentRaceTime;
+        currentBestTime = player.BestTime;
+        lastCpTime = player.lastCpTime;
+    }
+    
+
+    UI::Begin("ImLegit - Debug", isdebugScreen);
+    UI::LabelText("Time::Now", tostring(Time::Now));
+    UI::LabelText("Time::Stamp", tostring(Time::Stamp));
+    if (app.Editor !is null) {
+        UI::LabelText("Editor Object", "exists");
+    } else {
+        UI::LabelText("Editor Object", "none");
+    }
+    UI::LabelText("Start time", tostring(currentStartTime));
+    UI::LabelText("Race time", tostring(currentRaceTime));
+    UI::LabelText("currentBestTime", tostring(currentBestTime));
+    UI::LabelText("lastCpTime", tostring(lastCpTime));
+    UI::LabelText("finishTime", tostring(player.FinishTime));
+    UI::End();
+
+}
+
 void drawDebugWindowOld(){
     CSmArenaClient@ currentPlayground;
     CGameTerminal@ currentTerminal;
