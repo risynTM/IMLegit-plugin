@@ -2,6 +2,10 @@ CTrackMania@ app;
 string currentMapUid;
 bool isdebugScreen = true;
 
+int currentStartTime = -1;
+int currentFinishTime = -1;
+int currentRaceTime = -1;
+
 void Main() {
    @app = cast<CTrackMania>(GetApp());
 }
