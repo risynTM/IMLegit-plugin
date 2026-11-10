@@ -18,12 +18,12 @@ void Update(float dt) {
             currentPlayground.Map is null) {
             if (currentMapUid != "") {
                 currentMapUid = "";
-                startnew(onMapChange());
+                startnew(onMapChange);
             }
         } else {
             if (currentMapUid != currentPlayground.Map.MapInfo.MapUid) {
                 currentMapUid = currentPlayground.Map.MapInfo.MapUid;
-                startnew(onMapChange());
+                startnew(onMapChange);
             }
         }
         if (app.CurrentPlayground !is null)  {
