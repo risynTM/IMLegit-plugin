@@ -5,6 +5,7 @@ bool isdebugScreen = true;
 int currentStartTime = -1;
 int currentFinishTime = -1;
 int currentRaceTime = -1;
+bool isFinished = false;
 
 void Main() {
    @app = cast<CTrackMania>(GetApp());
@@ -41,8 +42,26 @@ void Render () {
     drawDebugWindow();
 }
 
-void generateTimestamps(MLFeed::PlayerCpInfo_V4 player) {
-    
+void generateTimestamps(const MLFeed::PlayerCpInfo_V4@ player) {
+    if (player.IsSpawned && !player.IsFinished) {
+        currentStartTime = player.StartTime;
+        currentRaceTime = player.CurrentRaceTime;
+    }
+
+    //check if player just finished
+    if (!isFinished && player.IsFinished) {
+        FinishInfo@ finishInfo = FinishInfo(player.FinishTime, Time::MilliStamp, currentMapUid);
+        startnew(onFinish, finishInfo);
+    }
+    isFinished = player.IsFinished;
+}
+
+void onFinish(ref@ finishInfoRef) {
+    FinishInfo@ finishInfo = cast<FinishInfo>(finishInfoRef);
+    if (finishInfo is null) {
+        return;
+    }
+    print("Map " + finishInfo.map +" finished - " + tostring(finishInfo.time) + " - " + tostring(finishInfo.timestamp));
 }
 
 void onMapChange() {
@@ -54,8 +73,6 @@ void onMapChange() {
 }
 
 void drawDebugWindow() {
-    int currentBestTime = -1;
-    int lastCpTime = -1;
     if (GetApp().CurrentPlayground is null || !isdebugScreen) {
         return;
     }
@@ -64,14 +81,7 @@ void drawDebugWindow() {
     auto player = RaceData.GetPlayer_V4(MLFeed::LocalPlayersName);
     if (player is null) {
         return;
-    }
-    if (player.IsSpawned && !player.IsFinished) {
-        currentStartTime = player.StartTime;
-        currentRaceTime = player.CurrentRaceTime;
-        currentBestTime = player.BestTime;
-        lastCpTime = player.lastCpTime;
-    }
-    
+    }   
 
     UI::Begin("ImLegit - Debug", isdebugScreen);
     UI::LabelText("Time::Now", tostring(Time::Now));
@@ -83,8 +93,6 @@ void drawDebugWindow() {
     }
     UI::LabelText("Start time", tostring(currentStartTime));
     UI::LabelText("Race time", tostring(currentRaceTime));
-    UI::LabelText("currentBestTime", tostring(currentBestTime));
-    UI::LabelText("lastCpTime", tostring(lastCpTime));
     UI::LabelText("finishTime", tostring(player.FinishTime));
     UI::End();
 
