@@ -3,3 +3,6 @@ version = "0.2.0"
 name = "ImLegit"
 author = "risyn_1"
 category = "utilities"
+
+[script]
+dependencies = ["MLHook", "MLFeedRaceData"] # need both
